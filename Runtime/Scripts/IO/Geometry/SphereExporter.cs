@@ -4,15 +4,15 @@ using USD.NET.Unity;
 
 namespace Unity.Formats.USD
 {
-    public static class CubeExporter
+    public static class SphereExporter
     {
-        public static void ExportCube(ObjectContext objContext, ExportContext exportContext)
+        public static void ExportSphere(ObjectContext objContext, ExportContext exportContext)
         {
-            UnityEngine.Profiling.Profiler.BeginSample("USD-Party: Cube Conversion");
+            UnityEngine.Profiling.Profiler.BeginSample("USD-Party: Sphere Conversion");
 
-            Debug.Log("cube exporter");
-            CubeSample sample = (CubeSample)objContext.sample;
-            sample.size = 1.0;
+            Debug.Log("sphere exporter");
+            SphereSample sample = (SphereSample)objContext.sample;
+            sample.radius = 1.01;
 
             // XformSample sample = (XformSample)objContext.sample;
             var localRot = objContext.gameObject.transform.localRotation;
@@ -31,7 +31,7 @@ namespace Unity.Formats.USD
 
             UnityEngine.Profiling.Profiler.EndSample();
 
-            UnityEngine.Profiling.Profiler.BeginSample("USD-Party: Cube Write");
+            UnityEngine.Profiling.Profiler.BeginSample("USD-Party: Sphere Write");
             exportContext.scene.Write(path, sample);
             UnityEngine.Profiling.Profiler.EndSample();
         }

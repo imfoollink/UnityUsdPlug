@@ -561,11 +561,11 @@ namespace Unity.Formats.USD
             if (bs != null)
             {
                 Debug.Log("great");
-                // CreateExportPlan(go, CreateSample<XformSample>(context), XformExporter.ExportXform, context);
-                CreateExportPlan(go, CreateSample<XformSample>(context), CubeExporter.ExportCube, context);
-                // CreateExportPlan(go, CreateSample<MeshSample>(context), MeshExporter.ExportMesh, context);
-                // CreateExportPlan(go, CreateSample<MeshSample>(context), NativeExporter.ExportObject, context,
-                //     insertFirst: false);
+                CreateExportPlan(go, CreateSample<XformSample>(context), XformExporter.ExportXform, context);
+                if (bs.shape == BasicShape.eShape.kBox)
+                    CreateExportPlan(go, CreateSample<CubeSample>(context), CubeExporter.ExportCube, context, "/Primitive");
+                else if (bs.shape == BasicShape.eShape.kSphere)
+                    CreateExportPlan(go, CreateSample<SphereSample>(context), SphereExporter.ExportSphere, context, "/Primitive");
             }
             else if (smr != null)
             {

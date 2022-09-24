@@ -16,6 +16,6 @@ namespace Unity.Formats.PartyUSD
             kSphere
         }
 
-        public eShape shape { get; set; }
+        public eShape shape;
     }
 }
