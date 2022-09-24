@@ -18,6 +18,7 @@ using System.Linq;
 using UnityEngine;
 using USD.NET;
 using USD.NET.Unity;
+using Unity.Formats.PartyUSD;
 
 namespace Unity.Formats.USD
 {
@@ -127,6 +128,7 @@ namespace Unity.Formats.USD
             context.scene = scene;
             context.basisTransform = basisTransform;
             context.exportRoot = root.transform.parent;
+            context.exportMaterials = exportMaterials;
             SyncExportContext(root, context);
 
             // Since this is a one-shot convenience function, we will automatically split the export
@@ -140,8 +142,8 @@ namespace Unity.Formats.USD
             }
 
             // Export data for the requested time.
-            context.exportMaterials = exportMaterials;
-            Export(root, context, zeroRootTransform);
+            // context.exportMaterials = exportMaterials;
+            // Export(root, context, zeroRootTransform);
         }
 
         public static void Export(GameObject root,
@@ -537,6 +539,7 @@ namespace Unity.Formats.USD
         static void InitExportableObjects(GameObject go,
             ExportContext context)
         {
+            var bs = go.GetComponent<BasicShape>();
             var smr = go.GetComponent<SkinnedMeshRenderer>();
             var mr = go.GetComponent<MeshRenderer>();
             var mf = go.GetComponent<MeshFilter>();
@@ -555,7 +558,16 @@ namespace Unity.Formats.USD
             // Ensure the "Materials" prim is defined with a valid prim type.
             context.scene.Write(materialBasePath.TrimEnd('/'), new ScopeSample());
 
-            if (smr != null)
+            if (bs != null)
+            {
+                Debug.Log("great");
+                // CreateExportPlan(go, CreateSample<XformSample>(context), XformExporter.ExportXform, context);
+                CreateExportPlan(go, CreateSample<XformSample>(context), CubeExporter.ExportCube, context);
+                // CreateExportPlan(go, CreateSample<MeshSample>(context), MeshExporter.ExportMesh, context);
+                // CreateExportPlan(go, CreateSample<MeshSample>(context), NativeExporter.ExportObject, context,
+                //     insertFirst: false);
+            }
+            else if (smr != null)
             {
                 foreach (var mat in smr.sharedMaterials)
                 {
